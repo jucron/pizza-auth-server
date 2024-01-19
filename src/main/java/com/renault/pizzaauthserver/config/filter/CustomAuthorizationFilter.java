@@ -16,11 +16,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.renault.pizzaauthserver.config.SecurityConfig.*;
+//import static com.renault.pizzaauthserver.config.SecurityConfig.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
+/*
 @Slf4j
 @RequiredArgsConstructor
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
@@ -63,3 +63,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     }
 }
 
+
+
+ */

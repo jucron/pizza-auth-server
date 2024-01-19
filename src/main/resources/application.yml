@@ -1,9 +1,12 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/jwt_security
-    username:
+    username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   jpa:
     hibernate:
       ddl-auto: create-drop

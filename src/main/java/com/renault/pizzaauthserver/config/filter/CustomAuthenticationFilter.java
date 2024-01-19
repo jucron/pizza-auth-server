@@ -1,5 +1,5 @@
 package com.renault.pizzaauthserver.config.filter;
-
+/*
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renault.pizzaauthserver.services.TokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,3 +50,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }
+
+
+ */

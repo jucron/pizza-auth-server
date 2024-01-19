@@ -1,5 +1,5 @@
 package com.renault.pizzaauthserver.controllers.v1;
-
+/*
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -53,7 +53,7 @@ public class UserController {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
     }
 
-     */
+
 
     @GetMapping ("/token/refresh")
     @ResponseStatus(HttpStatus.OK)
@@ -99,8 +99,13 @@ public class UserController {
         }
     }
 }
+
+
 @Data
 class RoleToUserForm {
     private String username;
     private String roleName;
 }
+
+
+*/

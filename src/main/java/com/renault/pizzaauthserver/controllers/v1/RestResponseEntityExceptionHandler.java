@@ -1,4 +1,4 @@
-package server.controllers.v1;
+package com.renault.pizzaauthserver.controllers.v1;
 //
 
 import com.renault.pizzaauthserver.services.ResourceNotFoundException;

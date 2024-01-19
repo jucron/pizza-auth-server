@@ -3,7 +3,7 @@ package com.renault.pizzaauthserver.services;
 import com.renault.pizzaauthserver.api.v1.model.UserDTO;
 import com.renault.pizzaauthserver.domain.Role;
 import com.renault.pizzaauthserver.domain.User;
-
+/*
 import java.util.List;
 
 public interface UserService {
@@ -15,3 +15,6 @@ public interface UserService {
 
     User getTrueUser(String username);
 }
+
+
+ */

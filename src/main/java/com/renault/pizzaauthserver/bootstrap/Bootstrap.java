@@ -6,8 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.renault.pizzaauthserver.domain.Role;
 import com.renault.pizzaauthserver.domain.RoleList;
-import com.renault.pizzaauthserver.services.UserService;
-
+//import com.renault.pizzaauthserver.services.UserService;
+/*
 @Component
 @Slf4j
 public class Bootstrap implements CommandLineRunner {
@@ -58,3 +58,6 @@ public class Bootstrap implements CommandLineRunner {
 
     }
 }
+
+
+ */

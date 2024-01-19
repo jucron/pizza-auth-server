@@ -1,7 +1,5 @@
 package com.renault.pizzaauthserver.config;
 
-import server.config.security.filter.CustomAuthenticationFilter;
-import server.config.security.filter.CustomAuthorizationFilter;
 import com.renault.pizzaauthserver.domain.Permission;
 import com.renault.pizzaauthserver.services.TokenService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.http.HttpMethod.DELETE;
-
+/*
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -84,3 +81,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 );
     }
 }
+
+
+ */

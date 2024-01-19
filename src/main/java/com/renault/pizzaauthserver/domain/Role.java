@@ -1,10 +1,10 @@
 package com.renault.pizzaauthserver.domain;
 
+import jakarta.persistence.*;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.util.*;
 
 @Entity
