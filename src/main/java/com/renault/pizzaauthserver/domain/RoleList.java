@@ -15,7 +15,7 @@ public enum RoleList {
         ADMIN(new HashSet<String>() {{
             add(READ.permission); add(UPDATE.permission); add(WRITE.permission); add(DELETE.permission);
         }});
-        private Set<String> permissions;
+        private final Set<String> permissions;
 
         RoleList (Set<String> permissions) {
             this.permissions = permissions;

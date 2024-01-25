@@ -9,7 +9,7 @@ public enum Permission {
 
     public final String permission;
 
-    private Permission(String permission) {
+    Permission(String permission) {
         this.permission = permission;
     }
 }

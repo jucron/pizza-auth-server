@@ -1,5 +1,6 @@
 package com.renault.pizzaauthserver.config;
 
+import com.renault.pizzaauthserver.domain.RoleList;
 import com.renault.pizzaauthserver.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,19 +37,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        //B: Extract jwtToken (after 'Bearer ')
+        //Extract jwtToken (after 'Bearer '):
         final String username;
         jwtToken = authHeader.substring(7);
+        //Extract Username using a service (usually the username is the Subject of the payload)
         username = jwtService.extractUsername(jwtToken);
-        //C: check if username exists in Token received and if the system is not authenticated
+        //Check if username exists in Token received and if the system is not authenticated
         boolean isUserAlreadyAuthenticated = (SecurityContextHolder.getContext().getAuthentication() != null);
         if (username != null && !isUserAlreadyAuthenticated) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
-                //Creating a new token to authenticate the System, without Credentials and with details based on request
+                //If Valid, a new token must be created to authenticate the System,
+                // no Credentials are necessary for now
+                // token details based on request
                 UsernamePasswordAuthenticationToken authToken = new
                         UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                //Set SecurityContext to hold this authToken
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
