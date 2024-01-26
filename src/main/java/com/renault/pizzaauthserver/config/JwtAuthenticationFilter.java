@@ -48,14 +48,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
                 //If Valid, a new token must be created to authenticate the System,
-                // no Credentials are necessary for now
-                // token details based on request
-                UsernamePasswordAuthenticationToken authToken = new
-                        UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                //Set SecurityContext to hold this authToken
+                UsernamePasswordAuthenticationToken authToken = getNewAuthToken(userDetails, request);
+                //Update SecurityContextHolder with this new authToken
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
     }
+
+    private UsernamePasswordAuthenticationToken getNewAuthToken(UserDetails userDetails, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken;
+        // no Credentials are necessary for this new token
+        Object credentials = null;
+        authToken = new UsernamePasswordAuthenticationToken(userDetails,credentials, userDetails.getAuthorities());
+        // token details based on request
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authToken;
+    }
+
 }
