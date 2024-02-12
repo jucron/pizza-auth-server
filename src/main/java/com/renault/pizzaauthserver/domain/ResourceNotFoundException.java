@@ -1,4 +1,4 @@
-package com.renault.pizzaauthserver.services;
+package com.renault.pizzaauthserver.domain;
 
     public class ResourceNotFoundException extends RuntimeException {
         public ResourceNotFoundException() {

@@ -5,6 +5,7 @@ import com.renault.pizzaauthserver.api.v1.model.AuthRequestDTO;
 import com.renault.pizzaauthserver.api.v1.model.AuthResponseDTO;
 import com.renault.pizzaauthserver.services.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-private final AuthService authService;
+    private final AuthService authService;
     @PostMapping("/register")
     public AuthResponseDTO register(@RequestBody AuthRegisterDTO authRegisterDTO) {
         return authService.register(authRegisterDTO);

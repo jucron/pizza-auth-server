@@ -1,33 +1,28 @@
 package com.renault.pizzaauthserver.bootstrap;
 
 import com.renault.pizzaauthserver.api.v1.model.UserDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import com.renault.pizzaauthserver.domain.Role;
 import com.renault.pizzaauthserver.domain.RoleList;
 //import com.renault.pizzaauthserver.services.UserService;
-/*
+
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class Bootstrap implements CommandLineRunner {
-
-    private UserService userService;
-
-    public Bootstrap(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public void run(String... args) throws Exception {
+        updateSecurityContext();
         populateUsersData();
-
-
-        log.info("\n- Data Loaded in Categories = " + userService.getUsers().size());
+//        log.info("\n- Data Loaded in Categories = " + userService.getUsers().size());
     }
 
     private void populateUsersData() {
-
+        /*
         //Creating different roles
 
         userService.saveRole(new Role(null, "ROLE_ADMIN", RoleList.ADMIN.getPermissions()));
@@ -56,8 +51,11 @@ public class Bootstrap implements CommandLineRunner {
         userService.addRoleToUser("jim", "ROLE_USER");
         userService.addRoleToUser("arnold", "ROLE_USER");
 
+    */
+    }
+    private void updateSecurityContext() {
+
     }
 }
 
 
- */

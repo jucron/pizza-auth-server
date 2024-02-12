@@ -9,7 +9,7 @@ spring:
       matching-strategy: ant_path_matcher
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -17,4 +17,4 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   custom:
-    secret-key: 4e61657838354e496c344a6a776a547a574a6342516762794f65414d515237496a73436e436871664c523370656e706b4d7a316c366f3477624c4a44724178700a
+    secret-key: "d56888ccb91bcb8dbb3109bd3ace21c9c86c1e1df029676d0ac1e73a1b5ef47645b133bd015782b8baaac9780b982a07050412bf9acfc1fbd42f9a7e7d430df9"
