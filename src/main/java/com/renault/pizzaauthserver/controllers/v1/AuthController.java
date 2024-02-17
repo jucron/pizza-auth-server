@@ -1,19 +1,18 @@
 package com.renault.pizzaauthserver.controllers.v1;
 
+import com.renault.pizzaauthserver.api.v1.model.AuthIntrospectDTO;
 import com.renault.pizzaauthserver.api.v1.model.AuthRegisterDTO;
 import com.renault.pizzaauthserver.api.v1.model.AuthRequestDTO;
 import com.renault.pizzaauthserver.api.v1.model.AuthResponseDTO;
 import com.renault.pizzaauthserver.services.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/v1/auth")
+@Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/auth")
+@RestController
 public class AuthController {
 
     private final AuthService authService;
@@ -27,4 +26,13 @@ public class AuthController {
         return authService.authenticate(authRequestDTO);
     }
 
+    @PostMapping("/refresh")
+    public AuthResponseDTO refresh() {
+        return authService.refresh();
+    }
+
+    @PostMapping("/introspect")
+    public AuthIntrospectDTO introspect() {
+        return authService.introspect();
+    }
 }

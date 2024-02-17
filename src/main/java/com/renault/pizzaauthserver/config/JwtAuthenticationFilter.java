@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -42,17 +43,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         //Extract Username using a service (usually the username is the Subject of the payload)
         username = jwtService.extractUsername(jwtToken);
-        //Check if username exists in Token received and if the system is not authenticated
-        boolean isUserAlreadyAuthenticated = (SecurityContextHolder.getContext().getAuthentication() != null);
-        if (username != null && !isUserAlreadyAuthenticated) {
+        log.info("INFO <Filter>: username found in Token: <"+username+">");
+        //Check if username exists in Token received and if the SecurityContext is not authenticated for this thread
+        boolean isContextUpdated = (SecurityContextHolder.getContext().getAuthentication() != null);
+        log.info("INFO <Filter>: isContextUpdated: <"+isContextUpdated+">");
+        if (username != null && !isContextUpdated) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwtToken, userDetails)) {
-                //If Valid, a new token must be created to authenticate the System,
+                log.info("INFO <Filter>: token is valid");
+                //If Valid, a new token must be created to update the SecurityContext,
                 UsernamePasswordAuthenticationToken authToken = getNewAuthToken(userDetails, request);
                 //Update SecurityContextHolder with this new authToken
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
+        filterChain.doFilter(request,response);
     }
 
     private UsernamePasswordAuthenticationToken getNewAuthToken(UserDetails userDetails, HttpServletRequest request) {
