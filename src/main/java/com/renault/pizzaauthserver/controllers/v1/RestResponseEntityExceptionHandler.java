@@ -2,7 +2,6 @@ package com.renault.pizzaauthserver.controllers.v1;
 //
 
 import com.renault.pizzaauthserver.domain.UsernameTakenException;
-import com.renault.pizzaauthserver.domain.ResourceNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler({ResourceNotFoundException.class})
-    public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request) {
-        return new ResponseEntity<Object>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler({UsernameTakenException.class})
     public ResponseEntity<Object> handleUsernameTakenException(Exception exception, WebRequest request) {

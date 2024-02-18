@@ -11,4 +11,6 @@ public interface AuthService {
     AuthIntrospectDTO introspect();
 
     AuthResponseDTO refresh();
+
+    void logout(String token);
 }

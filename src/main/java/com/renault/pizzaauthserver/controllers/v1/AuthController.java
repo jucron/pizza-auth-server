@@ -35,4 +35,12 @@ public class AuthController {
     public AuthIntrospectDTO introspect() {
         return authService.introspect();
     }
+
+    @PostMapping("/logout")
+    public void logout(@RequestHeader("Authorization") String authorizationHeader) {
+        authService.logout(getTokenFromHeader(authorizationHeader));
+    }
+    private String getTokenFromHeader(String header) {
+        return header.substring("Bearer ".length());
+    }
 }

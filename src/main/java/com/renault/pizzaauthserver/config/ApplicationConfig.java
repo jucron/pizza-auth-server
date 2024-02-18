@@ -3,6 +3,7 @@ package com.renault.pizzaauthserver.config;
 import com.renault.pizzaauthserver.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @Configuration
 public class ApplicationConfig {
+
+    @Value("${spring.custom.secret-key}")
+    public static String SECRET_KEY;
+
     private final UserRepo userRepository;
     @Bean
     public UserDetailsService userDetailsService() {

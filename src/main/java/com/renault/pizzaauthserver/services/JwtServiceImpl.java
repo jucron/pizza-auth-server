@@ -1,5 +1,6 @@
 package com.renault.pizzaauthserver.services;
 
+import com.renault.pizzaauthserver.config.ApplicationConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,17 +9,17 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
-@Service
+@PropertySource("classpath:application.yml")
 @RequiredArgsConstructor
+@Service
 public class JwtServiceImpl implements JwtService{
 
     /** JSON Web Token:
@@ -42,8 +43,9 @@ public class JwtServiceImpl implements JwtService{
         Encrypt data from: https://generate-random.org/encryption-key-generator
         */
 //    @Value("${spring.custom.secret-key}")
-    private static final String SECRET_KEY = "d56888ccb91bcb8dbb3109bd3ace21c9c86c1e1df029676d0ac1e73a1b5ef47645b133bd015782b8baaac9780b982a07050412bf9acfc1fbd42f9a7e7d430df9";
-
+//    private static String SECRET_KEY;
+    public static Set<String> blackListTokens;
+    
     @Override
     public String extractUsername(String jwtToken) {
         //Subject of this Claim should be the username
@@ -75,9 +77,29 @@ public class JwtServiceImpl implements JwtService{
     }
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        //Checks if the token belongs to this User and is not expired
-        final String usernameFromToken = extractUsername(token);
-        return (usernameFromToken.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        //Checks if the token belongs to this User, is not expired and is not part of the BlackList
+        if (extractUsername(token).equals(userDetails.getUsername())) {
+            if (!isTokenExpired(token)) {
+                return !this.isTokenInBlackList(token);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void addTokenToBlackList(String token) {
+        getBlackListTokens().add(token);
+    }
+
+    private boolean isTokenInBlackList(String token) {
+        return getBlackListTokens().contains(token);
+    }
+
+    private Set<String> getBlackListTokens() {
+        if (blackListTokens == null) {
+            return new HashSet<>();
+        }
+        return blackListTokens;
     }
 
     private boolean isTokenExpired(String token) {
@@ -99,7 +121,7 @@ public class JwtServiceImpl implements JwtService{
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes= Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes= Decoders.BASE64.decode(ApplicationConfig.SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

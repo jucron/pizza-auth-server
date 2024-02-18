@@ -87,7 +87,16 @@ public class AuthServiceImpl implements AuthService{
             return this.generateTokenAndCreateResponse(getUserLoadedIntoContext());
         }
         log.info("INFO<AuthService>: user is not authenticated");
-        //This will never be reached since the ValidateToken will throw Exception
+        throw new SessionAuthenticationException("session for this user is not initiated");
+    }
+
+    @Override
+    public void logout(String token) {
+        log.info("INFO<AuthService>: refresh method accessed");
+        if (isUserLoadedIntoContext()) {
+            this.jwtService.addTokenToBlackList(token);
+        }
+        log.info("INFO<AuthService>: user is not authenticated");
         throw new SessionAuthenticationException("session for this user is not initiated");
     }
 
