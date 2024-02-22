@@ -7,7 +7,7 @@ import static com.renault.pizzaauthserver.domain.Permission.*;
 
 public enum RoleList {
         USER(new HashSet<String>() {{
-            add(READ.permission);
+            add(READ_OWNER.permission); add(UPDATE_OWNER.permission); add(WRITE_OWNER.permission);
         }}),
         MANAGER(new HashSet<String>() {{
             add(READ.permission); add(UPDATE.permission); add(WRITE.permission);

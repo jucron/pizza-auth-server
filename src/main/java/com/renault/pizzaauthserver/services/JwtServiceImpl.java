@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,7 @@ import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.function.Function;
 
-@PropertySource("classpath:application.yml")
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class JwtServiceImpl implements JwtService{
@@ -65,7 +66,7 @@ public class JwtServiceImpl implements JwtService{
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 *24))
+                .expiration(new Date(System.currentTimeMillis() + ApplicationConfig.tokenExpirationTime))
 //                .signWith(getSignInKey(),SignatureAlgorithm.ES256)
                 .signWith(getSignInKey())
                 .compact();
@@ -89,6 +90,7 @@ public class JwtServiceImpl implements JwtService{
     @Override
     public void addTokenToBlackList(String token) {
         getBlackListTokens().add(token);
+        log.info("INFO <JwtServiceImpl>: new token added to blacklist, with now size of "+getBlackListTokens().size());
     }
 
     private boolean isTokenInBlackList(String token) {
@@ -97,7 +99,7 @@ public class JwtServiceImpl implements JwtService{
 
     private Set<String> getBlackListTokens() {
         if (blackListTokens == null) {
-            return new HashSet<>();
+            blackListTokens = new HashSet<>();
         }
         return blackListTokens;
     }
