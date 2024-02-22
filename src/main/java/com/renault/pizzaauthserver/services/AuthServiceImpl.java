@@ -1,13 +1,7 @@
 package com.renault.pizzaauthserver.services;
 
-import com.renault.pizzaauthserver.api.v1.model.AuthIntrospectDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthRegisterDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthRequestDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthResponseDTO;
-import com.renault.pizzaauthserver.domain.Role;
-import com.renault.pizzaauthserver.domain.RoleList;
-import com.renault.pizzaauthserver.domain.User;
-import com.renault.pizzaauthserver.domain.UsernameTakenException;
+import com.renault.pizzaauthserver.api.v1.model.*;
+import com.renault.pizzaauthserver.domain.*;
 import com.renault.pizzaauthserver.repositories.RoleRepo;
 import com.renault.pizzaauthserver.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -67,10 +64,11 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public AuthIntrospectDTO introspect() {
+    public AuthIntrospectResponseDTO introspect(AuthIntrospectRequestDTO introspectRequest) {
         log.info("INFO<AuthService>: introspect method accessed");
         if (isUserLoadedIntoContext()) {
-            return AuthIntrospectDTO.builder()
+            evaluatePermissions(introspectRequest);
+            return AuthIntrospectResponseDTO.builder()
                     .status("session valid")
                     .build();
         }
@@ -78,6 +76,33 @@ public class AuthServiceImpl implements AuthService{
         throw new SessionAuthenticationException("session for this user is not initiated");
     }
 
+    private void evaluatePermissions(AuthIntrospectRequestDTO introspectRequest) {
+        boolean hasPermission = false;
+        String requestedPermission = introspectRequest.getRequestedPermission();
+        for (String permission: getUserLoadedIntoContext().getRole().getPermissions()) {
+            //format in DB: "condition:permission"
+            String[] userConditionPermission = permission.split(":",2);
+            String userPermission = userConditionPermission[2];
+            //Check if permission is ok
+            if (requestedPermission.equals(userPermission)) {
+                String userCondition = userConditionPermission[1];
+                if (Objects.equals(userCondition, "any")) {
+                    hasPermission = true;
+                    break;
+                } else if (Objects.equals(userCondition, "owner")) {
+                    if (Objects.equals(introspectRequest.getUsernameImpacted(), getUserLoadedIntoContext().getUsername())) {
+                        hasPermission = true;
+                        break;
+                    }
+                }
+            }
+            //
+
+        }
+        if (!hasPermission) {
+            throw new NoPermissionException();
+        }
+    }
 
 
     @Override
@@ -114,7 +139,10 @@ public class AuthServiceImpl implements AuthService{
     }
     private boolean isUserLoadedIntoContext() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal instanceof User;
+        if (principal != null) {
+            return principal instanceof User;
+        }
+        throw new UsernameNotFoundException("Username not found in context");
     }
     private User getUserLoadedIntoContext() {
         if (isUserLoadedIntoContext()) {

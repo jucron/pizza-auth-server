@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthIntrospectDTO {
-    private String status;
+public class AuthIntrospectRequestDTO {
+    private String requestedPermission;
+    private String usernameImpacted;
 }

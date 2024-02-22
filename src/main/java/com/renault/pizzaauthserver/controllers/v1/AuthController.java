@@ -1,9 +1,6 @@
 package com.renault.pizzaauthserver.controllers.v1;
 
-import com.renault.pizzaauthserver.api.v1.model.AuthIntrospectDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthRegisterDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthRequestDTO;
-import com.renault.pizzaauthserver.api.v1.model.AuthResponseDTO;
+import com.renault.pizzaauthserver.api.v1.model.*;
 import com.renault.pizzaauthserver.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +29,8 @@ public class AuthController {
     }
 
     @PostMapping("/introspect")
-    public AuthIntrospectDTO introspect() {
-        return authService.introspect();
+    public AuthIntrospectResponseDTO introspect(@RequestBody AuthIntrospectRequestDTO introspectRequest) {
+        return authService.introspect(introspectRequest);
     }
 
     @PostMapping("/logout")

@@ -1,6 +1,7 @@
 package com.renault.pizzaauthserver.controllers.v1;
 //
 
+import com.renault.pizzaauthserver.domain.NoPermissionException;
 import com.renault.pizzaauthserver.domain.UsernameTakenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -49,6 +50,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleJwtException(Exception exception, WebRequest request) {
         log.info("INFO: handleJwtException called");
         return new ResponseEntity<Object>("JWT not accepted", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+    @ExceptionHandler({NoPermissionException.class})
+    public ResponseEntity<Object> handleNoPermissionException(Exception exception, WebRequest request) {
+        log.info("INFO: handleNoPermissionException called");
+        return new ResponseEntity<Object>("No permissions for this action", new HttpHeaders(), HttpStatus.FORBIDDEN);
     }
 }
 //
