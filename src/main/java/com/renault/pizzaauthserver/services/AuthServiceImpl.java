@@ -79,18 +79,23 @@ public class AuthServiceImpl implements AuthService{
     private void evaluatePermissions(AuthIntrospectRequestDTO introspectRequest) {
         boolean hasPermission = false;
         String requestedPermission = introspectRequest.getRequestedPermission();
-        for (String permission: getUserLoadedIntoContext().getRole().getPermissions()) {
-            //format in DB: "condition:permission"
-            String[] userConditionPermission = permission.split(":",2);
-            String userPermission = userConditionPermission[2];
-            //Check if permission is ok
+        log.info("INFO<AuthService_evaluatePermissions>: permission requested: "+requestedPermission);
+        for (String rolePermissions: getUserLoadedIntoContext().getRole().getPermissions()) {
+            //format of Role Permissions: "condition:permission"
+            String[] rolePermissionsSplit = rolePermissions.split(":",2);
+            String userPermission = rolePermissionsSplit[1];
+            //Check if User has Permission required for this action
+            log.info("INFO<AuthService_evaluatePermissions>: current User permission: "+userPermission);
             if (requestedPermission.equals(userPermission)) {
-                String userCondition = userConditionPermission[1];
+                String userCondition = rolePermissionsSplit[0];
+                log.info("INFO<AuthService_evaluatePermissions>: current User condition: "+userCondition);
                 if (Objects.equals(userCondition, "any")) {
+                    log.info("INFO<AuthService_evaluatePermissions>: condition = any");
                     hasPermission = true;
                     break;
                 } else if (Objects.equals(userCondition, "owner")) {
                     if (Objects.equals(introspectRequest.getUsernameImpacted(), getUserLoadedIntoContext().getUsername())) {
+                        log.info("INFO<AuthService_evaluatePermissions>: username impacted = current user");
                         hasPermission = true;
                         break;
                     }
