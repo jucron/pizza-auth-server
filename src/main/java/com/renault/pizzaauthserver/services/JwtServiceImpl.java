@@ -64,16 +64,17 @@ public class JwtServiceImpl implements JwtService{
     public String generateToken (Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims(extraClaims)
+                .issuer("pizza-auth-token")
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + ApplicationConfig.tokenExpirationTime))
 //                .signWith(getSignInKey(),SignatureAlgorithm.ES256)
                 .signWith(getSignInKey())
                 .compact();
-
     }
     @Override
     public String generateToken (UserDetails userDetails) {
+
         return generateToken(new HashMap<>(),userDetails);
     }
     @Override
