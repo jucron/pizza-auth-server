@@ -1,6 +1,7 @@
 package com.renault.pizzaauthserver.services;
 
 import com.renault.pizzaauthserver.config.ApplicationConfig;
+import com.renault.pizzaauthserver.domain.TokenProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,8 +44,8 @@ public class JwtServiceImpl implements JwtService{
     /** Secret-Key:
         Encrypt data from: https://generate-random.org/encryption-key-generator
         */
-//    @Value("${spring.custom.secret-key}")
-//    private static String SECRET_KEY;
+
+    private final TokenProperties tokenProperties;
     public static Set<String> blackListTokens;
     
     @Override
@@ -67,7 +68,7 @@ public class JwtServiceImpl implements JwtService{
                 .issuer("pizza-auth-token")
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + ApplicationConfig.tokenExpirationTime))
+                .expiration(new Date(System.currentTimeMillis() + tokenProperties.getTokenExpirationTime()))
 //                .signWith(getSignInKey(),SignatureAlgorithm.ES256)
                 .signWith(getSignInKey())
                 .compact();
@@ -124,7 +125,7 @@ public class JwtServiceImpl implements JwtService{
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes= Decoders.BASE64.decode(ApplicationConfig.SECRET_KEY);
+        byte[] keyBytes= Decoders.BASE64.decode(tokenProperties.getSECRET_KEY());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
