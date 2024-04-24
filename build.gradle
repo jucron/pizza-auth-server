@@ -56,6 +56,8 @@ dependencies {
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.12'
 // https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter
     implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
+// https://mvnrepository.com/artifact/com.h2database/h2
+    implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
 
 
 }
