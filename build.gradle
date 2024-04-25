@@ -36,9 +36,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+  // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
 // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
     implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '3.2.1'
@@ -58,6 +56,10 @@ dependencies {
     implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
 // https://mvnrepository.com/artifact/com.h2database/h2
     implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+
+// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.4'
+
 
 
 }

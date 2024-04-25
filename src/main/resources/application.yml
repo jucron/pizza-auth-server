@@ -18,6 +18,8 @@
 #    database-platform: org.hibernate.dialect.PostgreSQLDialect
 #server:
 #  port: 8082
+springdoc:
+  pathsToMatch: /api/**
 jasypt:
   encryptor:
     password: jhsad892
