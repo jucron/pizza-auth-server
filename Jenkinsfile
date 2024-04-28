@@ -9,7 +9,7 @@ pipeline {
 
     stage('gradle') {
       steps {
-        sh './sudo gradlew clean build --stacktrace'
+        sh 'sudo ./gradlew clean build --stacktrace'
       }
     }
 
