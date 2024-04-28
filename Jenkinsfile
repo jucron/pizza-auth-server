@@ -7,5 +7,14 @@ pipeline {
       }
     }
 
+    stage('gradle') {
+      steps {
+        withGradle() {
+          sh 'clean build --stacktrace'
+        }
+
+      }
+    }
+
   }
 }
