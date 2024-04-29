@@ -7,9 +7,15 @@ pipeline {
       }
     }
 
-    stage('gradle') {
+    stage('Permissions gradlew') {
       steps {
-        sh 'sudo ./gradlew clean build --stacktrace'
+        sh 'git update-index --chmod=+x gradlew'
+      }
+    }
+
+    stage('Run gradle builder') {
+      steps {
+        sh './gradlew clean build --stacktrace'
       }
     }
 
