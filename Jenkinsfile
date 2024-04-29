@@ -9,7 +9,7 @@ pipeline {
 
     stage('Permissions gradlew') {
       steps {
-        sh 'git update-index --chmod=+x gradlew'
+        sh 'chmod +x gradlew'
       }
     }
 
