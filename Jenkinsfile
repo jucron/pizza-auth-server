@@ -20,7 +20,7 @@ pipeline {
 
     stage('Run gradle builder') {
       steps {
-        sh './gradlew clean build --no-cache'
+        sh './gradlew clean build'
       }
     }
 
