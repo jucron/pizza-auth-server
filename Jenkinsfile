@@ -3,12 +3,11 @@ pipeline {
   stages {
     stage('Checkout Code') {
       steps {
-        sh '''git branch: \'master\',
-    credentialsId: \'jenkins\',
-    url: \'git@github.com:jucron/pizza-auth-server.git\''''
-      }
-    }
-
+        script {
+            git branch: 'master',
+                credentialsId: 'jenkins',
+                url: 'git@github.com:jucron/pizza-auth-server.git'
+        }
     stage('Permissions gradlew') {
       steps {
         sh 'chmod +x gradlew'
