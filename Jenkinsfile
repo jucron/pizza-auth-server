@@ -8,6 +8,7 @@ pipeline {
                 credentialsId: 'jenkins',
                 url: 'git@github.com:jucron/pizza-auth-server.git'
         }
+      }
     stage('Permissions gradlew') {
       steps {
         sh 'chmod +x gradlew'
